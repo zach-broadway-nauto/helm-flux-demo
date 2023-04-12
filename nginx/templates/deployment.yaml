@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.product_name }}
+  labels:
+    app: {{ .Values.product_name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.product_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.product_name }}
+    spec:
+      volumes:
+      - name: {{ .Values.product_name }}-vhost
+        configMap:
+          name: {{ .Values.product_name }}-vhost
+      - name: html-file
+        configMap:
+          name: html-file
+      containers:
+      - name: {{ .Values.product_name }}
+        image: {{ .Values.image.repository }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.product_name }}-vhost
+          mountPath: /etc/nginx/conf.d/vhost.conf
+          subPath: vhost.conf
+        - name: html-file
+          mountPath: /usr/share/nginx/html/helm.html
+          subPath: helm.html
+        env:
+          - name: SECRET_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.product_name }}-secrets
+                key: USER_NAME
+                optional: false # same as default; "nginx_secrets" must exist
+          - name: SECRET_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.product_name }}-secrets
+                key: PASSWORD
+                optional: false # same as default; "nginx_secrets" must exist
+        ports:
+        - containerPort: {{ .Values.networking.container_port }}
+          name: http

@@ -1,0 +1,48 @@
+# ALL THE VALUES!
+
+###########
+###########
+# General #
+###########
+###########
+product_name: nginx
+replicaCount: 3
+
+
+##############
+##############
+# Networking #
+##############
+##############
+networking:
+  ssl_redirect: false
+  ingrees_port: 80
+  service_port: 80
+  container_port: 80
+
+###########
+###########
+# Secrets #
+###########
+###########
+USER_NAME: coolest_nauto_engineer
+#If commented out, generate random password
+#PASSWORD: 
+
+
+##########
+##########
+# Images #
+##########
+##########
+image:
+  repository: nginx:latest
+  pullPolicy: Always
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "200m"
+    limits:
+      memory: "3Gi"
+      cpu: "800m"
+  
