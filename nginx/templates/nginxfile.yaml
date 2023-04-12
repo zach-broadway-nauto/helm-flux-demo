@@ -16,7 +16,7 @@ data:
     </head>
     <body>
     <h1>Welcome to nginx HOSTED ON K8S Installed with HELM!</h1>
-    <p>You are looking at NGINX on HELM! Yes we did it!</p>
+    <p>This is the DEV branch!!</p>
 
 
     <p><em>I hope you enjoyed the tutorial!</em></p>
